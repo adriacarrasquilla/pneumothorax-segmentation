@@ -1871,7 +1871,7 @@ For the Unet, we have tested two approaches:
 
 The first approach is the most simple one, but not the best practice. We used all the data we had information about for training only. The model achieved close to 0.3 in dice coefficient using a 20% split for validation. This approach didn't leave us with testing data, since we actually have testing samples but these do not come up with the groundtruth. There is no way to evaluate it.
 
-This was not a really good score, but when exploring some actual predictions we can observe that it is not that bad and that the model was able to learn something.
+This was not a really good score, but when exploring some actual predictions we can observe that it is not that bad and that the model was able to learn something. We must also be aware that the samples we explore are from the training data (the model overfit to those).
 
 For the second approach, we now had less data for training and eval since we divided the training dataset into 80/10/10 train/val/test. Now over 1k samples are used for test only. We also changed the training to use a custom implemented bce_dice_loss. This gave us worse results, with down to 0.2 score in validation and more noisy curves. This time we could evaluate the model with testing data, with a result of 0.09 score in dice coefficient.
 
@@ -1898,8 +1898,13 @@ We have used the original training dataset to split our data into train/val/test
 
 Overall the results were quite similar in the different implementations. Quantitative, the order from worse to best was Unet < U-Xception < U-Xception (with data augmentation). This order is also from less to more complex solutions.
 
-Despite that, we could observe that the latter architectures didn't achieve very good visual results, when observing individual samples. Visually speaking we could even say that the very first experiment using UNet achieved the best results when comparing with the groundtruth images.
+Despite that, we could observe that the latter architectures didn't achieve very good visual results, when observing individual samples. Visually speaking we could even say that the very first experiment using UNet achieved the best results when comparing with the groundtruth images, but this is mainly because the samples observed were from the training data. The model overfitted to it achieving over a 0.70 dice coefficient score, so we can expect good visual results too.
 
 It is true though, that further finetuning and experimentation would be needed in order to improve the results and properly extract more extensive conclusions for the performance of the models. This was out of scope for this project at this point.
 
 We can affirm that different approaches were successfully implemented and that an extensive exploration of the challenge ecosystem, data and methodology was covered.
+
+
+```python
+
+```
